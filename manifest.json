@@ -1,0 +1,8 @@
+{
+  "name": "India Pincode Finder",
+  "short_name": "Pincode Finder",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#FF9933"
+}
