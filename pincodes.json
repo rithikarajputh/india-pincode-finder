@@ -10,17 +10,5 @@
     "area": "Gachibowli",
     "district": "Hyderabad",
     "state": "Telangana"
-  },
-  {
-    "pincode": "110001",
-    "area": "New Delhi",
-    "district": "Central Delhi",
-    "state": "Delhi"
-  },
-  {
-    "pincode": "400001",
-    "area": "Mumbai",
-    "district": "Mumbai",
-    "state": "Maharashtra"
   }
 ]
