@@ -7,6 +7,7 @@ window.addEventListener("beforeinstallprompt", function (event) {
     deferredPrompt = event;
 
     let installBtn = document.getElementById("installBtn");
+
     if (installBtn) {
         installBtn.style.display = "block";
     }
@@ -28,7 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js");
+        navigator.serviceWorker.register("sw.js?v=30");
+    }
+
+    let pinInput = document.getElementById("pin");
+
+    if (pinInput) {
+        pinInput.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                searchPincode();
+            }
+        });
     }
 });
 
@@ -62,7 +73,7 @@ async function loadPincodeData() {
         return;
     }
 
-    let response = await fetch("india-pincode.csv");
+    let response = await fetch("india-pincode.csv.csv?v=30");
 
     if (!response.ok) {
         throw new Error("CSV file not found");
@@ -86,6 +97,10 @@ async function loadPincodeData() {
     let regionIndex = headers.indexOf("regionname");
     let latitudeIndex = headers.indexOf("latitude");
     let longitudeIndex = headers.indexOf("longitude");
+
+    if (pincodeIndex === -1) {
+        throw new Error("Pincode column not found in CSV");
+    }
 
     for (let i = 1; i < lines.length; i++) {
 
@@ -116,6 +131,9 @@ async function loadPincodeData() {
             longitude: values[longitudeIndex] || ""
         });
     }
+
+    console.log("Database loaded:", pincodeData.length);
+    console.log("First row:", pincodeData[0]);
 }
 
 // Search by pincode
@@ -140,8 +158,13 @@ async function searchPincode() {
         });
 
         if (results.length === 0) {
-            document.getElementById("result").innerHTML =
-                "<h3>❌ Pincode Not Found</h3>";
+
+            document.getElementById("result").innerHTML = `
+                <h3>❌ Pincode Not Found</h3>
+                <p><b>Database Loaded:</b> ${pincodeData.length} records</p>
+                <p>This pincode was not found in your CSV file.</p>
+            `;
+
             return;
         }
 
@@ -160,7 +183,9 @@ async function searchPincode() {
         results.forEach(function (office) {
 
             let mapQuery =
-                `${office.officename} ${office.district} ${office.statename}`;
+                office.officename + " " +
+                office.district + " " +
+                office.statename;
 
             html += `
                 <div class="office-card">
@@ -183,8 +208,10 @@ async function searchPincode() {
 
         console.log(error);
 
-        document.getElementById("result").innerHTML =
-            "<h3>⚠️ Error Loading CSV Data</h3>";
+        document.getElementById("result").innerHTML = `
+            <h3>⚠️ Error Loading CSV Data</h3>
+            <p>${error.message}</p>
+        `;
     }
 }
 
@@ -216,17 +243,20 @@ async function searchArea() {
             return;
         }
 
+        let total = results.length;
         results = results.slice(0, 50);
 
         let html = `
             <h3>📍 Matching Results</h3>
-            <p>Showing first ${results.length} results</p>
+            <p>Found ${total} results. Showing first ${results.length}.</p>
         `;
 
         results.forEach(function (office) {
 
             let mapQuery =
-                `${office.officename} ${office.district} ${office.statename}`;
+                office.officename + " " +
+                office.district + " " +
+                office.statename;
 
             html += `
                 <div class="office-card">
@@ -249,8 +279,10 @@ async function searchArea() {
 
         console.log(error);
 
-        document.getElementById("result").innerHTML =
-            "<h3>⚠️ Error Loading CSV Data</h3>";
+        document.getElementById("result").innerHTML = `
+            <h3>⚠️ Error Loading CSV Data</h3>
+            <p>${error.message}</p>
+        `;
     }
 }
 
@@ -261,16 +293,3 @@ function openMap(location) {
         "_blank"
     );
 }
-
-// Enter key support
-document.addEventListener("DOMContentLoaded", function () {
-    let pinInput = document.getElementById("pin");
-
-    if (pinInput) {
-        pinInput.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                searchPincode();
-            }
-        });
-    }
-});
