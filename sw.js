@@ -1,12 +1,12 @@
-const cacheName = "india-pincode-finder-v10";
+const cacheName = "india-pincode-finder-v20";
 
 const filesToCache = [
     "./",
     "index.html",
-    "style.css",
-    "script.js",
+    "style.css?v=20",
+    "script.js?v=20",
     "manifest.json",
-    "india-pincode.csv"
+    "india-pincode.csv?v=20"
 ];
 
 self.addEventListener("install", function (event) {
