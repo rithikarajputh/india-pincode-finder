@@ -14,7 +14,18 @@
 
     <div class="container">
 
-        <h1>India Pincode Finder</h1>
+        <div class="logo-section">
+            <img
+                src="iconIndia Pincode Finder</h1>
+
+            <p class="subtitle">
+                Search Any Pincode Across India
+            </p>
+        </div>
+
+        <button id="installBtn" class="install-btn" style="display:none;">
+            📱 Install App
+        </button>
 
         <input
             type="text"
@@ -23,6 +34,17 @@
 
         <button onclick="searchPincode()">
             Search
+        </button>
+
+        <br><br>
+
+        <input
+            type="text"
+            id="area"
+            placeholder="Enter Area / Post Office Name">
+
+        <button onclick="searchArea()">
+            Search By Area
         </button>
 
         <div id="result"></div>

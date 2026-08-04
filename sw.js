@@ -1,4 +1,4 @@
-const cacheName = "india-pincode-finder-v2";
+const cacheName = "india-pincode-finder-v10";
 
 const filesToCache = [
     "./",
@@ -10,11 +10,29 @@ const filesToCache = [
 ];
 
 self.addEventListener("install", function (event) {
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(cacheName).then(function (cache) {
             return cache.addAll(filesToCache);
         })
     );
+});
+
+self.addEventListener("activate", function (event) {
+    event.waitUntil(
+        caches.keys().then(function (cacheNames) {
+            return Promise.all(
+                cacheNames.map(function (oldCache) {
+                    if (oldCache !== cacheName) {
+                        return caches.delete(oldCache);
+                    }
+                })
+            );
+        })
+    );
+
+    self.clients.claim();
 });
 
 self.addEventListener("fetch", function (event) {
