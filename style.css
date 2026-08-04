@@ -143,3 +143,15 @@ button:hover{
     color: #666;
     font-size: 14px;
 }
+.office-card {
+    background: #ffffff;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border-left: 4px solid #1e3a8a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.office-card p {
+    margin: 5px 0;
+}
