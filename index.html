@@ -14,17 +14,7 @@
 
     <div class="container">
 
-        <div class="logo-section">
-
-            <img src.png
-
-            <h1>India Pincode Finder</h1>
-
-            <p class="subtitle">
-                Search Any Pincode Across India
-            </p>
-
-        </div>
+        <h1>India Pincode Finder</h1>
 
         <input
             type="text"
@@ -32,18 +22,7 @@
             placeholder="Enter Pincode">
 
         <button onclick="searchPincode()">
-            Search By Pincode
-        </button>
-
-        <br><br>
-
-        <input
-            type="text"
-            id="area"
-            placeholder="Enter Area Name">
-
-        <button onclick="searchArea()">
-            Search By Area
+            Search
         </button>
 
         <div id="result"></div>
@@ -51,12 +30,6 @@
     </div>
 
     <script src="script.js"></script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
 
 </body>
 
